@@ -1,3 +1,4 @@
+import 'package:Halo_Halo/survey.dart';
 import 'package:flutter/material.dart';
 
 class MyCustomForm extends StatefulWidget {
@@ -63,6 +64,7 @@ class MyCustomFormState extends State<MyCustomForm> {
           .of(context)
           .showSnackBar(SnackBar(content: Text('Selamat datang $_nama')));
     }
+    Navigator.push(context, MaterialPageRoute (builder: (context) => SurveyPage()),);
   },
   child: Text('Submit'),
 ),
