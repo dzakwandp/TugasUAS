@@ -80,18 +80,18 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: <Widget>[
-        ],
-        centerTitle: true,
-        title: Text(
-          'Login',
-          style: TextStyle(
-              fontSize: 20.0,
-              fontWeight: FontWeight.normal,
-              fontStyle: FontStyle.normal),
-        ),
-      ),
+      // appBar: AppBar(
+      //   actions: <Widget>[
+      //   ],
+      //   centerTitle: true,
+      //   title: Text(
+      //     'Login',
+      //     style: TextStyle(
+      //         fontSize: 20.0,
+      //         fontWeight: FontWeight.normal,
+      //         fontStyle: FontStyle.normal),
+      //   ),
+      // ),
       backgroundColor: Colors.cyan,
       body: Center(
         child: MyCustomForm()),
