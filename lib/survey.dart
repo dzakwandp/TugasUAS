@@ -1,24 +1,55 @@
+//import 'dart:js';
+
+import 'package:Halo_Halo/homeview.dart';
 import 'package:flutter/material.dart';
-import 'homeview.dart';
 
-class SurveyPage extends StatefulWidget {
-  @override
-  Surveys createState() {
-    return Surveys();
-  }
-}
-
-class Surveys extends State<SurveyPage>{
-  static const String _title = 'Flutter Code Sample';
-
+class Survey extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: _title,
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(title: const Text(_title)),
+        appBar: AppBar(title: const Text('Surveys'),
+        leading: IconButton(icon: const Icon(Icons.navigate_before), onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()),);
+        }),),
+        body: MyStatelessWidget(),
       ),
     );
   }
+}
 
+/// This is the stateless widget that the main application instantiates.
+class MyStatelessWidget extends StatelessWidget {
+  MyStatelessWidget({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Card(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            const ListTile(
+              leading: Icon(Icons.album),
+              title: Text('The Enchanted Nightingale'),
+              subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
+            ),
+            ButtonBar(
+              children: <Widget>[
+                FlatButton(
+                  child: const Text('BUY TICKETS'),
+                  onPressed: () {/* ... */},
+                ),
+                FlatButton(
+                  child: const Text('LISTEN'),
+                  onPressed: () {/* ... */},
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }

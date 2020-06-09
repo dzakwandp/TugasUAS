@@ -1,3 +1,5 @@
+import 'dart:async';
+//import 'dart:js';
 import 'package:Halo_Halo/survey.dart';
 import 'package:flutter/material.dart';
 
@@ -23,53 +25,58 @@ class MyCustomFormState extends State<MyCustomForm> {
     return Form(
         key: _formKey,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-          Text(
-            'Masukkan Nama Anda:\n',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey[300]),),
-          Container(
-            margin: EdgeInsets.only(right: 50, left: 50),
-            decoration: BoxDecoration(
-              color: Colors.grey[300],
-              borderRadius: new BorderRadius.circular(10),
-            ),
-            child: TextFormField(
-              controller: _controller,
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                prefixIcon: Icon(Icons.account_circle),
-                border: InputBorder.none,
-                fillColor: Colors.grey,
-                focusColor: Colors.grey,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                'Masukkan Nama Anda:\n',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, color: Colors.grey[300]),
               ),
-              // The validator receives the text that the user has entered.
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
-            ),
-          ),
-          RaisedButton(
-  onPressed: () {
-    // Validate returns true if the form is valid, otherwise false.
-    if (_formKey.currentState.validate()) {
-      // If the form is valid, display a snackbar. In the real world,
-      // you'd often call a server or save the information in a database.
-      _nama = _controller.text;
-      Scaffold
-          .of(context)
-          .showSnackBar(SnackBar(content: Text('Selamat datang $_nama')));
-    }
-    Navigator.push(context, MaterialPageRoute (builder: (context) => SurveyPage()),);
-  },
-  child: Text('Submit'),
-),
-
-        ]));
+              Container(
+                margin: EdgeInsets.only(right: 50, left: 50),
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: new BorderRadius.circular(10),
+                ),
+                child: TextFormField(
+                  controller: _controller,
+                  decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    prefixIcon: Icon(Icons.account_circle),
+                    border: InputBorder.none,
+                    fillColor: Colors.grey,
+                    focusColor: Colors.grey,
+                  ),
+                  // The validator receives the text that the user has entered.
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              RaisedButton(
+                onPressed: () {
+                  // Validate returns true if the form is valid, otherwise false.
+                  if (_formKey.currentState.validate()) {
+                    // If the form is valid, display a snackbar. In the real world,
+                    // you'd often call a server or save the information in a database.
+                    _nama = _controller.text;
+                    Scaffold.of(context).showSnackBar(
+                        SnackBar(content: Text('Selamat datang $_nama')));
+                    var duration = const Duration(seconds: 2);
+                    return Timer(duration, () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Survey()),);
+                    });
+                  }
+                },
+                child: Text('Submit'),
+              ),
+            ]));
   }
 }
 
@@ -95,8 +102,7 @@ class _HomePageState extends State<HomePage> {
       //   ),
       // ),
       backgroundColor: Colors.cyan,
-      body: Center(
-        child: MyCustomForm()),
+      body: Center(child: MyCustomForm()),
     );
   }
 }
