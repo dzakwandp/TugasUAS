@@ -1,82 +1,82 @@
 import 'dart:async';
-//import 'dart:js';
-import 'package:Halo_Halo/survey.dart';
+import 'survey.dart';
 import 'package:flutter/material.dart';
 
 class MyCustomForm extends StatefulWidget {
   @override
-  MyCustomFormState createState() {
-    return MyCustomFormState();
-  }
+  MyCustomFormState createState() => MyCustomFormState();
 }
 
 class MyCustomFormState extends State<MyCustomForm> {
-  // Create a global key that uniquely identifies the Form widget
-  // and allows validation of the form.
-  //
-  // Note: This is a `GlobalKey<FormState>`,
-  // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
-  String _nama;
   final _controller = TextEditingController();
+  String _nama;
+
   @override
   Widget build(BuildContext context) {
-    // Build a Form widget using the _formKey created above.
     return Form(
-        key: _formKey,
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'Masukkan Nama Anda:\n',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold, color: Colors.grey[300]),
+      key: _formKey,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            'Masukkan Nama Anda:\n',
+            textDirection: TextDirection.ltr,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.grey[300],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(right: 50, left: 50),
+            decoration: BoxDecoration(
+              color: Colors.grey[300],
+              borderRadius: new BorderRadius.circular(10),
+            ),
+            child: TextFormField(
+              controller: _controller,
+              decoration: InputDecoration(
+                contentPadding:
+                    EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                prefixIcon: Icon(Icons.account_circle),
+                border: InputBorder.none,
+                fillColor: Colors.grey,
+                focusColor: Colors.grey,
               ),
-              Container(
-                margin: EdgeInsets.only(right: 50, left: 50),
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: new BorderRadius.circular(10),
-                ),
-                child: TextFormField(
-                  controller: _controller,
-                  decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                    prefixIcon: Icon(Icons.account_circle),
-                    border: InputBorder.none,
-                    fillColor: Colors.grey,
-                    focusColor: Colors.grey,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+            ),
+          ),
+          RaisedButton(
+            onPressed: () {
+              if (_formKey.currentState.validate()) {
+                _nama = _controller.text;
+                Scaffold.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Selamat datang $_nama'),
                   ),
-                  // The validator receives the text that the user has entered.
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    return null;
+                );
+                var duration = const Duration(seconds: 2);
+                return Timer(
+                  duration,
+                  () {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => Survey()),
+                    );
                   },
-                ),
-              ),
-              RaisedButton(
-                onPressed: () {
-                  // Validate returns true if the form is valid, otherwise false.
-                  if (_formKey.currentState.validate()) {
-                    // If the form is valid, display a snackbar. In the real world,
-                    // you'd often call a server or save the information in a database.
-                    _nama = _controller.text;
-                    Scaffold.of(context).showSnackBar(
-                        SnackBar(content: Text('Selamat datang $_nama')));
-                    var duration = const Duration(seconds: 2);
-                    return Timer(duration, () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Survey()),);
-                    });
-                  }
-                },
-                child: Text('Submit'),
-              ),
-            ]));
+                );
+              }
+            },
+            child: Text('Submit'),
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -102,7 +102,9 @@ class _HomePageState extends State<HomePage> {
       //   ),
       // ),
       backgroundColor: Colors.cyan,
-      body: Center(child: MyCustomForm()),
+      body: Center(
+        child: MyCustomForm(),
+      ),
     );
   }
 }

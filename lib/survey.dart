@@ -1,6 +1,6 @@
 //import 'dart:js';
 
-import 'package:Halo_Halo/homeview.dart';
+import 'homeview.dart';
 import 'package:flutter/material.dart';
 
 class Survey extends StatelessWidget {
@@ -12,13 +12,14 @@ class Survey extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Surveys'),
           leading: IconButton(
-              icon: const Icon(Icons.navigate_before),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomePage()),
-                );
-              }),
+            icon: const Icon(Icons.navigate_before),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomePage()),
+              );
+            },
+          ),
         ),
         body: RadioApp(),
       ),
@@ -27,7 +28,8 @@ class Survey extends StatelessWidget {
 }
 
 /// This is the stateless widget that the main application instantiates.
-enum Pilihan { a, b, c, d, e, f, g, h, i, j, k, l, m, o, p, q, r, s, t, u}
+enum Pilihan { a, b, c, d, e, f, g, h, i, j, k, l, m, o, p, q, r, s, t, u }
+
 class RadioApp extends StatefulWidget {
   RadioApp({Key key}) : super(key: key);
 
@@ -46,30 +48,42 @@ class _RadioAppState extends State<RadioApp> {
           children: <Widget>[
             const ListTile(
               leading: Icon(Icons.question_answer),
-              title: Text('Silahkan jawab pertanyaan dibawah ini sesuai dengan kondisi anda.'),
+              title: Text(
+                  'Silahkan jawab pertanyaan dibawah ini sesuai dengan kondisi anda.'),
               subtitle: Text('Data tidak akan kami sebar luaskan'),
             ),
             const ListTile(
-              title: Text('1. Apakah anda memiliki riwayat demam selama 2 minggu terakhir?'),
+              title: Text(
+                  '1. Apakah anda memiliki riwayat demam selama 2 minggu terakhir?'),
             ),
             ListTile(
               title: Text('Iya'),
-              leading: Radio(value: Pilihan.a, 
-              groupValue: _character, 
-              onChanged: (Pilihan value){
-                setState(() {
-                _character = value;
-              });
-              })),
-              ListTile(
+              leading: Radio(
+                value: Pilihan.a,
+                groupValue: _character,
+                onChanged: (Pilihan value) {
+                  setState(
+                    () {
+                      _character = value;
+                    },
+                  );
+                },
+              ),
+            ),
+            ListTile(
               title: Text('Tidak'),
-              leading: Radio(value: Pilihan.b, 
-              groupValue: _character, 
-              onChanged: (Pilihan value){
-                setState(() {
-                _character = value;
-              });
-              }))
+              leading: Radio(
+                value: Pilihan.b,
+                groupValue: _character,
+                onChanged: (Pilihan value) {
+                  setState(
+                    () {
+                      _character = value;
+                    },
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),
