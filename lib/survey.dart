@@ -2,6 +2,7 @@
 
 import 'homeview.dart';
 import 'package:flutter/material.dart';
+import 'varglob.dart' as globals;
 
 class Survey extends StatelessWidget {
   @override
@@ -48,10 +49,10 @@ class _RadioAppState extends State<RadioApp> {
   Pilihan _character8;
   Pilihan _character9;
   Pilihan _character10;
-
+  int _total = 0;
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-          child: Center(
+      child: Center(
         child: Card(
           child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -382,10 +383,116 @@ class _RadioAppState extends State<RadioApp> {
                   },
                 ),
               ),
+              RaisedButton(
+                onPressed: () {
+                  if (_character1 == Pilihan.a) {
+                    _total++;
+                  } else {}
+                  if (_character2 == Pilihan.c) {
+                    _total++;
+                  } else {}
+                  if (_character3 == Pilihan.e) {
+                    _total++;
+                  } else {}
+                  if (_character4 == Pilihan.g) {
+                    _total++;
+                  } else {}
+                  if (_character5 == Pilihan.i) {
+                    _total++;
+                  } else {}
+                  if (_character6 == Pilihan.k) {
+                    _total++;
+                  } else {}
+                  if (_character7 == Pilihan.m) {
+                    _total++;
+                  } else {}
+                  if (_character8 == Pilihan.o) {
+                    _total++;
+                  } else {}
+                  if (_character9 == Pilihan.q) {
+                    _total++;
+                  } else {}
+                  if (_character10 == Pilihan.s) {
+                    _total++;
+                  } else {}
+                  if (_total >= 6) {
+                    _popupplus();
+                  } else {
+                    _popupmin();
+                  }
+                },
+                child: Text('Submit'),
+              )
             ],
           ),
         ),
       ),
     );
   }
+
+  Future<void> _popupplus() async {
+  String _nama;
+    _nama = globals.nama;
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Hello $_nama'),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[
+              Text("Potensi Anda untuk positif COVID-19 tinggi\nSilahkan laukan medical check-up di instansi kesehatan terdekat."),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Approve'),
+            onPressed: () {
+              Navigator.of(context).pop();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomePage()),
+              );
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Future<void> _popupmin() async {
+  String _nama;
+    _nama = globals.nama;
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Hello $_nama'),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[
+              Text("Potensi Anda untuk positif COVID-19 rendah\nTetap jaga kesehatan, dan patuhi protokol kesehatan dari pemerintah."),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Approve'),
+            onPressed: () {
+              Navigator.of(context).pop();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomePage()),
+              );
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
 }
