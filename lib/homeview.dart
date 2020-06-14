@@ -41,8 +41,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                     EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                 prefixIcon: Icon(Icons.account_circle),
                 border: InputBorder.none,
-                fillColor: Colors.grey,
-                focusColor: Colors.grey,
+                fillColor: Colors.white,
+                focusColor: Colors.white,
               ),
               validator: (value) {
                 if (value.isEmpty) {
@@ -102,7 +102,7 @@ class _HomePageState extends State<HomePage> {
       //         fontStyle: FontStyle.normal),
       //   ),
       // ),
-      backgroundColor: Colors.cyan,
+      backgroundColor: Colors.white,
       body: Center(
         child: MyCustomForm(),
       ),

@@ -1,498 +1,168 @@
-//import 'dart:js';
-
-import 'homeview.dart';
 import 'package:flutter/material.dart';
-import 'varglob.dart' as globals;
 
-class Survey extends StatelessWidget {
+const questions = [
+  'Apakah Anda memiliki riwayat demam selama 2 minggu terakhir?',
+  'Apakah Anda memiliki riwayat batuk/pilek selama 2 minggu terakhir?',
+  'Apakah Anda memiliki riwayat nyeri pada tenggorokan 2 minggu terakhir?',
+  'Apakah Anda memiliki riwayat sesak nafas selama 2 minggu terakhir?',
+  'Apakah Anda memiliki riwayat perjalanan ke luar negeri dalam waktu 2 minggu terakhir?',
+  'Apakah Anda memiliki riwayat perjalanan ke luar kota dalam waktu 2 minggu terakhir?',
+  'Apakah Anda memiliki riwayat kontak erat dengan pasien kasus positif COVID-19?',
+  'Apakah Anda memiliki riwayat mengunjungi wilayah industri yang terkena zona merah COVID-19?',
+  'Apakah Anda memiliki riwayat mengunjungi fasilitas kesehatan yang terkena zona merah COVID-19?',
+  'Apakah Anda memiliki riwayat suhu tubuh melebihi 38 derajat celcius dalam 2 minggu terakhir?',
+];
+
+enum Options { Iya, Tidak, None }
+
+Map<String, Options> answer = {};
+
+void initializeAnswer() {
+  for (int i = 1; i <= questions.length; i++) {
+    answer['answer$i'] = Options.None;
+  }
+}
+
+Options option1;
+
+class Survey extends StatefulWidget {
+  @override
+  _SurveyState createState() => _SurveyState();
+}
+
+class _SurveyState extends State<Survey> {
+  @override
+  void initState() {
+    super.initState();
+    initializeAnswer();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Surveys'),
-          leading: IconButton(
-            icon: const Icon(Icons.navigate_before),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomePage()),
-              );
-            },
+          backgroundColor: Colors.cyan,
+          centerTitle: true,
+          elevation: 10.0,
+          title: Text(
+            'Survey',
+            style: TextStyle(
+              fontSize: 25.0,
+              fontWeight: FontWeight.bold,
+              fontStyle: FontStyle.normal,
+              color: Colors.white,
+            ),
           ),
         ),
-        body: RadioApp(),
+        body: _myListView(context),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            setState(() {
+              calculateResult(context);
+            });
+          },
+          label: Text('Submit'),
+          icon: Icon(Icons.thumb_up),
+          backgroundColor: Colors.cyan,
+          elevation: 5.0,
+          tooltip: 'Submit untuk melihat hasilnya',
+        ),
       ),
     );
   }
-}
 
-/// This is the stateless widget that the main application instantiates.
-enum Pilihan { a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t }
-
-class RadioApp extends StatefulWidget {
-  RadioApp({Key key}) : super(key: key);
-
-  @override
-  _RadioAppState createState() => _RadioAppState();
-}
-
-class _RadioAppState extends State<RadioApp> {
-  Pilihan _character1;
-  Pilihan _character2;
-  Pilihan _character3;
-  Pilihan _character4;
-  Pilihan _character5;
-  Pilihan _character6;
-  Pilihan _character7;
-  Pilihan _character8;
-  Pilihan _character9;
-  Pilihan _character10;
-  int _total = 0;
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Center(
-        child: Card(
+  Widget _myListView(BuildContext context) {
+    return ListView.builder(
+      itemCount: questions.length,
+      itemBuilder: (context, index) {
+        return Card(
+          margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 5.0),
+          elevation: 5.0,
           child: Column(
-            mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              const ListTile(
-                leading: Icon(Icons.question_answer),
+              ListTile(
                 title: Text(
-                    'Silahkan jawab pertanyaan dibawah ini sesuai dengan kondisi anda.'),
-                subtitle: Text('Data tidak akan kami sebar luaskan'),
-              ),
-              const ListTile(
-                title: Text(
-                    '1. Apakah Anda memiliki riwayat demam selama 2 minggu terakhir?'),
+                  '${index + 1}. ${questions[index]}',
+                  style: TextStyle(
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.bold,
+                    fontStyle: FontStyle.normal,
+                    color: Colors.grey[800],
+                  ),
+                ),
               ),
               ListTile(
-                title: Text('Iya'),
+                title: const Text('Iya'),
                 leading: Radio(
-                  value: Pilihan.a,
-                  groupValue: _character1,
-                  onChanged: (Pilihan value) {
+                  value: Options.Iya,
+                  groupValue: answer['answer${index + 1}'],
+                  onChanged: (Options value) {
                     setState(
                       () {
-                        _character1 = value;
+                        answer['answer${index + 1}'] = value;
                       },
                     );
                   },
                 ),
               ),
               ListTile(
-                title: Text('Tidak'),
+                title: const Text('Tidak'),
                 leading: Radio(
-                  value: Pilihan.b,
-                  groupValue: _character1,
-                  onChanged: (Pilihan value) {
+                  value: Options.Tidak,
+                  groupValue: answer['answer${index + 1}'],
+                  onChanged: (Options value) {
                     setState(
                       () {
-                        _character1 = value;
+                        answer['answer${index + 1}'] = value;
                       },
                     );
                   },
                 ),
               ),
-              const ListTile(
-                title: Text(
-                    '2. Apakah Anda memiliki riwayat batuk/pilek selama 2 minggu terakhir?'),
-              ),
-              ListTile(
-                title: Text('Iya'),
-                leading: Radio(
-                  value: Pilihan.c,
-                  groupValue: _character2,
-                  onChanged: (Pilihan value) {
-                    setState(
-                      () {
-                        _character2 = value;
-                      },
-                    );
-                  },
-                ),
-              ),
-              ListTile(
-                title: Text('Tidak'),
-                leading: Radio(
-                  value: Pilihan.d,
-                  groupValue: _character2,
-                  onChanged: (Pilihan value) {
-                    setState(
-                      () {
-                        _character2 = value;
-                      },
-                    );
-                  },
-                ),
-              ),
-              const ListTile(
-                title: Text(
-                    '3. Apakah Anda memiliki riwayat nyeri pada tenggorokan 2 minggu terakhir?'),
-              ),
-              ListTile(
-                title: Text('Iya'),
-                leading: Radio(
-                  value: Pilihan.e,
-                  groupValue: _character3,
-                  onChanged: (Pilihan value) {
-                    setState(
-                      () {
-                        _character3 = value;
-                      },
-                    );
-                  },
-                ),
-              ),
-              ListTile(
-                title: Text('Tidak'),
-                leading: Radio(
-                  value: Pilihan.f,
-                  groupValue: _character3,
-                  onChanged: (Pilihan value) {
-                    setState(
-                      () {
-                        _character3 = value;
-                      },
-                    );
-                  },
-                ),
-              ),
-              const ListTile(
-                title: Text(
-                    '4. Apakah Anda memiliki riwayat sesak nafas selama 2 minggu terakhir?'),
-              ),
-              ListTile(
-                title: Text('Iya'),
-                leading: Radio(
-                  value: Pilihan.g,
-                  groupValue: _character4,
-                  onChanged: (Pilihan value) {
-                    setState(
-                      () {
-                        _character4 = value;
-                      },
-                    );
-                  },
-                ),
-              ),
-              ListTile(
-                title: Text('Tidak'),
-                leading: Radio(
-                  value: Pilihan.h,
-                  groupValue: _character4,
-                  onChanged: (Pilihan value) {
-                    setState(
-                      () {
-                        _character4 = value;
-                      },
-                    );
-                  },
-                ),
-              ),
-              const ListTile(
-                title: Text(
-                    '5. Apakah Anda memiliki riwayat perjalanan ke luar negeri dalam waktu 2 minggu terakhir?'),
-              ),
-              ListTile(
-                title: Text('Iya'),
-                leading: Radio(
-                  value: Pilihan.i,
-                  groupValue: _character5,
-                  onChanged: (Pilihan value) {
-                    setState(
-                      () {
-                        _character5 = value;
-                      },
-                    );
-                  },
-                ),
-              ),
-              ListTile(
-                title: Text('Tidak'),
-                leading: Radio(
-                  value: Pilihan.j,
-                  groupValue: _character5,
-                  onChanged: (Pilihan value) {
-                    setState(
-                      () {
-                        _character5 = value;
-                      },
-                    );
-                  },
-                ),
-              ),
-              const ListTile(
-                title: Text(
-                    '6. Apakah Anda memiliki riwayat perjalanan ke luar kota dalam waktu 2 minggu terakhir?'),
-              ),
-              ListTile(
-                title: Text('Iya'),
-                leading: Radio(
-                  value: Pilihan.k,
-                  groupValue: _character6,
-                  onChanged: (Pilihan value) {
-                    setState(
-                      () {
-                        _character6 = value;
-                      },
-                    );
-                  },
-                ),
-              ),
-              ListTile(
-                title: Text('Tidak'),
-                leading: Radio(
-                  value: Pilihan.l,
-                  groupValue: _character6,
-                  onChanged: (Pilihan value) {
-                    setState(
-                      () {
-                        _character6 = value;
-                      },
-                    );
-                  },
-                ),
-              ),
-              const ListTile(
-                title: Text(
-                    '7. Apakah Anda memiliki riwayat kontak erat dengan pasien kasus positif COVID-19?'),
-              ),
-              ListTile(
-                title: Text('Iya'),
-                leading: Radio(
-                  value: Pilihan.m,
-                  groupValue: _character7,
-                  onChanged: (Pilihan value) {
-                    setState(
-                      () {
-                        _character7 = value;
-                      },
-                    );
-                  },
-                ),
-              ),
-              ListTile(
-                title: Text('Tidak'),
-                leading: Radio(
-                  value: Pilihan.n,
-                  groupValue: _character7,
-                  onChanged: (Pilihan value) {
-                    setState(
-                      () {
-                        _character7 = value;
-                      },
-                    );
-                  },
-                ),
-              ),
-              const ListTile(
-                title: Text(
-                    '8. Apakah Anda memiliki riwayat mengunjungi wilayah industri yang terkena zona merah COVID-19?'),
-              ),
-              ListTile(
-                title: Text('Iya'),
-                leading: Radio(
-                  value: Pilihan.o,
-                  groupValue: _character8,
-                  onChanged: (Pilihan value) {
-                    setState(
-                      () {
-                        _character8 = value;
-                      },
-                    );
-                  },
-                ),
-              ),
-              ListTile(
-                title: Text('Tidak'),
-                leading: Radio(
-                  value: Pilihan.p,
-                  groupValue: _character8,
-                  onChanged: (Pilihan value) {
-                    setState(
-                      () {
-                        _character8 = value;
-                      },
-                    );
-                  },
-                ),
-              ),
-              const ListTile(
-                title: Text(
-                    '9. Apakah Anda memiliki riwayat mengunjungi fasilitas kesehatan yang terkena zona merah COVID-19?'),
-              ),
-              ListTile(
-                title: Text('Iya'),
-                leading: Radio(
-                  value: Pilihan.q,
-                  groupValue: _character9,
-                  onChanged: (Pilihan value) {
-                    setState(
-                      () {
-                        _character9 = value;
-                      },
-                    );
-                  },
-                ),
-              ),
-              ListTile(
-                title: Text('Tidak'),
-                leading: Radio(
-                  value: Pilihan.r,
-                  groupValue: _character9,
-                  onChanged: (Pilihan value) {
-                    setState(
-                      () {
-                        _character9 = value;
-                      },
-                    );
-                  },
-                ),
-              ),
-              const ListTile(
-                title: Text(
-                    '10. Apakah Anda memiliki riwayat suhu tubuh melebihi 38 derajat celcius dalam 2 minggu terakhir?'),
-              ),
-              ListTile(
-                title: Text('Iya'),
-                leading: Radio(
-                  value: Pilihan.s,
-                  groupValue: _character10,
-                  onChanged: (Pilihan value) {
-                    setState(
-                      () {
-                        _character10 = value;
-                      },
-                    );
-                  },
-                ),
-              ),
-              ListTile(
-                title: Text('Tidak'),
-                leading: Radio(
-                  value: Pilihan.t,
-                  groupValue: _character10,
-                  onChanged: (Pilihan value) {
-                    setState(
-                      () {
-                        _character10 = value;
-                      },
-                    );
-                  },
-                ),
-              ),
-              RaisedButton(
-                onPressed: () {
-                  if (_character1 == Pilihan.a) {
-                    _total++;
-                  } else {}
-                  if (_character2 == Pilihan.c) {
-                    _total++;
-                  } else {}
-                  if (_character3 == Pilihan.e) {
-                    _total++;
-                  } else {}
-                  if (_character4 == Pilihan.g) {
-                    _total++;
-                  } else {}
-                  if (_character5 == Pilihan.i) {
-                    _total++;
-                  } else {}
-                  if (_character6 == Pilihan.k) {
-                    _total++;
-                  } else {}
-                  if (_character7 == Pilihan.m) {
-                    _total++;
-                  } else {}
-                  if (_character8 == Pilihan.o) {
-                    _total++;
-                  } else {}
-                  if (_character9 == Pilihan.q) {
-                    _total++;
-                  } else {}
-                  if (_character10 == Pilihan.s) {
-                    _total++;
-                  } else {}
-                  if (_total >= 6) {
-                    _popupplus();
-                  } else {
-                    _popupmin();
-                  }
-                },
-                child: Text('Submit'),
-              )
             ],
           ),
-        ),
-      ),
+        );
+      },
     );
   }
-
-  Future<void> _popupplus() async {
-  String _nama;
-    _nama = globals.nama;
-  return showDialog<void>(
-    context: context,
-    barrierDismissible: false, // user must tap button!
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Hello $_nama'),
-        content: SingleChildScrollView(
-          child: ListBody(
-            children: <Widget>[
-              Text("Potensi Anda untuk positif COVID-19 tinggi\nSilahkan laukan medical check-up di instansi kesehatan terdekat."),
-            ],
-          ),
-        ),
-        actions: <Widget>[
-          FlatButton(
-            child: Text('Approve'),
-            onPressed: () {
-              Navigator.of(context).pop();
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomePage()),
-              );
-            },
-          ),
-        ],
-      );
-    },
-  );
 }
 
-Future<void> _popupmin() async {
-  String _nama;
-    _nama = globals.nama;
-  return showDialog<void>(
-    context: context,
-    barrierDismissible: false, // user must tap button!
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Hello $_nama'),
-        content: SingleChildScrollView(
-          child: ListBody(
-            children: <Widget>[
-              Text("Potensi Anda untuk positif COVID-19 rendah\nTetap jaga kesehatan, dan patuhi protokol kesehatan dari pemerintah."),
-            ],
-          ),
-        ),
-        actions: <Widget>[
-          FlatButton(
-            child: Text('Approve'),
-            onPressed: () {
-              Navigator.of(context).pop();
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomePage()),
-              );
-            },
-          ),
-        ],
-      );
-    },
-  );
+void calculateResult(BuildContext context) {
+  int _percentage = 0;
+  bool _isValid = false;
+  for (final value in answer.values) {
+    if (value == Options.None) {
+      _isValid = false;
+      break;
+    } else if (value == Options.Iya) {
+      _percentage += 10;
+      _isValid = true;
+    }
+  }
+
+  _isValid
+      ? showAlertDialog(context, 'Hasil Survey',
+          'Persentase terjangkit COVID-19: $_percentage%')
+      : showAlertDialog(
+          context, 'Perhatian!', 'Silahkan isi semua survey terlebih dahulu!!!');
 }
+
+void showAlertDialog(BuildContext context, String title, String content) {
+  showDialog(
+    context: context,
+    builder: (_) => new AlertDialog(
+      title: new Text(title),
+      content: new Text(content),
+      actions: <Widget>[
+        FlatButton(
+          child: Text('Tutup!'),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
+    ),
+  );
 }

@@ -1,6 +1,6 @@
-# Halo_Halo
+# CoCheck
 
-A new Flutter project.
+A checker app for Novel Coronavirus-19.
 
 ## Getting Started
 
