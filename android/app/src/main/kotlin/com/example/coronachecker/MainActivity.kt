@@ -1,4 +1,4 @@
-package com.example.Halo_Halo
+package com.example.coronachecker
 
 import io.flutter.embedding.android.FlutterActivity
 

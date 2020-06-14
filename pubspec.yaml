@@ -23,6 +23,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  firebase_auth: ^0.16.1
+  firebase_core: ^0.4.5
+  firebase_storage: ^3.1.6
+  firebase_database: ^3.1.6
+  firebase_analytics: ^5.0.15
+  google_sign_in: ^4.5.1
+  flutter_facebook_login: ^3.0.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -56,15 +63,15 @@ flutter:
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
 
-  # To add custom fonts to your application, add a fonts section here,
+  # To add custom fonts to your appflication, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: Montserrat
+      fonts:
+        - asset: fonts/Montserrat-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

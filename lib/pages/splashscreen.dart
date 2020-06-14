@@ -1,6 +1,7 @@
+import 'package:Halo_Halo/pages/homeview.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'homeview.dart';
+import 'pages.dart';
 
 class SplashScreenPage extends StatefulWidget {
   @override
@@ -22,7 +23,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (context) {
-              return HomePage();
+              return LoginPage();
             },
           ),
         );
