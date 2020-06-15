@@ -6,7 +6,7 @@ class ProfilePage extends StatefulWidget {
   int _score = 0;
 
   ProfilePage(this._score);
-  
+
   @override
   _ProfilePageState createState() => _ProfilePageState(_score);
 }
@@ -21,12 +21,16 @@ class _ProfilePageState extends State<ProfilePage> {
   _ProfilePageState(this._score);
 
   void getUserInfo() async {
-    _photoUrl = await _firebaseAuths
-        .getCurrentUser()
-        .then((value) => value.photoUrl.toString());
-    _username = await _firebaseAuths
-        .getCurrentUser()
-        .then((value) => value.displayName.toString());
+    _firebaseAuths.getCurrentUser().then(
+      (value) {
+        setState(
+          () {
+            _photoUrl = value.photoUrl.toString();
+            _username = value.displayName.toString();
+          },
+        );
+      },
+    );
   }
 
   @override
@@ -34,8 +38,6 @@ class _ProfilePageState extends State<ProfilePage> {
     // TODO: implement initState
     super.initState();
     getUserInfo();
-    print(_photoUrl);
-    print(_username);
   }
 
   @override
@@ -53,6 +55,7 @@ class _ProfilePageState extends State<ProfilePage> {
       padding: EdgeInsets.all(8.0),
       child: Text(
         _username,
+        textDirection: TextDirection.ltr,
         style: TextStyle(fontSize: 28.0, color: Colors.white),
       ),
     );
@@ -60,7 +63,8 @@ class _ProfilePageState extends State<ProfilePage> {
     final description = Padding(
       padding: EdgeInsets.all(8.0),
       child: Text(
-        'Persentasi anda untuk terjangkit COVID-19 adalah $_score, selalu jaga kesehatan dengan memakai masker, sering-sering mencuci tangan, gunakan hand sanitizer, dan jaga jarak minimal 1.5 meter,.....',
+        'Persentase anda untuk terjangkit COVID-19 adalah $_score%, selalu jaga kesehatan dengan memakai masker, sering-sering mencuci tangan, gunakan hand sanitizer, dan jaga jarak minimal 1.5 meter, terimakasih semoga sehat selalu,.....',
+        textDirection: TextDirection.ltr,
         style: TextStyle(fontSize: 20.0, color: Colors.white),
       ),
     );
@@ -87,6 +91,7 @@ class _ProfilePageState extends State<ProfilePage> {
           },
           child: Text(
             'Sign out',
+            textDirection: TextDirection.ltr,
             textAlign: TextAlign.center,
             style: _textStyle.copyWith(
                 color: Colors.blue, fontWeight: FontWeight.bold),
@@ -103,6 +108,8 @@ class _ProfilePageState extends State<ProfilePage> {
           gradient: LinearGradient(colors: [Colors.blue, Colors.lightBlue]),
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             photoProfile,
             userProfile,

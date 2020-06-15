@@ -34,6 +34,7 @@ class _LoginPageState extends State<LoginPage> {
         },
         child: Text(
           'Sign in with google',
+          textDirection: TextDirection.ltr,
           textAlign: TextAlign.center,
           style: _textStyle.copyWith(
               color: Colors.white, fontWeight: FontWeight.bold),
@@ -61,6 +62,7 @@ class _LoginPageState extends State<LoginPage> {
         },
         child: Text(
           'Sign in with facebook',
+          textDirection: TextDirection.ltr,
           textAlign: TextAlign.center,
           style: _textStyle.copyWith(
               color: Colors.white, fontWeight: FontWeight.bold),

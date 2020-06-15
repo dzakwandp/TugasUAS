@@ -51,6 +51,7 @@ class _SurveyState extends State<Survey> {
           elevation: 10.0,
           title: Text(
             'Survey',
+            textDirection: TextDirection.ltr,
             style: TextStyle(
               fontSize: 25.0,
               fontWeight: FontWeight.bold,
@@ -66,7 +67,10 @@ class _SurveyState extends State<Survey> {
               calculateResult(context);
             });
           },
-          label: Text('Submit'),
+          label: Text(
+            'Submit',
+            textDirection: TextDirection.ltr,
+          ),
           icon: Icon(Icons.thumb_up),
           backgroundColor: Colors.cyan,
           elevation: 5.0,
@@ -97,7 +101,10 @@ class _SurveyState extends State<Survey> {
                 ),
               ),
               ListTile(
-                title: const Text('Iya'),
+                title: const Text(
+                  'Iya',
+                  textDirection: TextDirection.ltr,
+                ),
                 leading: Radio(
                   value: Options.Iya,
                   groupValue: answer['answer${index + 1}'],
@@ -111,7 +118,10 @@ class _SurveyState extends State<Survey> {
                 ),
               ),
               ListTile(
-                title: const Text('Tidak'),
+                title: const Text(
+                  'Tidak',
+                  textDirection: TextDirection.ltr,
+                ),
                 leading: Radio(
                   value: Options.Tidak,
                   groupValue: answer['answer${index + 1}'],
@@ -145,31 +155,48 @@ void calculateResult(BuildContext context) {
   }
 
   _isValid
-      ? showAlertDialog(context, 'Hasil Survey',
-          'Terima kasih sudah mengisi survey, untuk melihat hasilnya silahkan klik tombol dibawah,....', _percentage)
+      ? showAlertDialog(
+          context,
+          'Hasil Survey',
+          'Terima kasih sudah mengisi survey, untuk melihat hasilnya silahkan klik tombol dibawah,....',
+          _percentage)
       : showAlertDialog(context, 'Perhatian!',
           'Silahkan isi semua survey terlebih dahulu!!!');
 }
 
-void showAlertDialog(BuildContext context, String title, String content, [int persentage]) {
+void showAlertDialog(BuildContext context, String title, String content,
+    [int persentage]) {
   showDialog(
     context: context,
     barrierDismissible: !_isValid,
     builder: (_) => new AlertDialog(
-      title: new Text(title),
-      content: new Text(content),
+      title: new Text(
+        title,
+        textDirection: TextDirection.ltr,
+      ),
+      content: new Text(
+        content,
+        textDirection: TextDirection.ltr,
+      ),
       actions: <Widget>[
         FlatButton(
-          child: _isValid ? Text('Lihat!') : Text('Tutup!'),
+          child: _isValid
+              ? Text(
+                  'Lihat!',
+                  textDirection: TextDirection.ltr,
+                )
+              : Text(
+                  'Tutup!',
+                  textDirection: TextDirection.ltr,
+                ),
           onPressed: () {
             _isValid
-                ? Navigator.pushReplacement(
-                    context,
+                ? Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                       builder: (context) => ProfilePage(persentage),
                     ),
                   )
-                : Navigator.pop(context);
+                : Navigator.of(context).pop();
           },
         ),
       ],
