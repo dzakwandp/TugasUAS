@@ -8,9 +8,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextStyle textStyle = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
-  GoogleAuths googleAuth = GoogleAuths();
-  FacebookAuths facebookAuth = FacebookAuths();
+  TextStyle _textStyle = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
+  GoogleAuths _googleAuth = GoogleAuths();
+  FacebookAuths _facebookAuth = FacebookAuths();
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
-          googleAuth.signInWithGoogle().then(
+          _googleAuth.signInWithGoogle().then(
                 (value) => Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (context) {
@@ -35,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Text(
           'Sign in with google',
           textAlign: TextAlign.center,
-          style: textStyle.copyWith(
+          style: _textStyle.copyWith(
               color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
@@ -49,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
-          facebookAuth.signInWithFacebook().then(
+          _facebookAuth.signInWithFacebook().then(
                 (value) => Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (context) {
@@ -62,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Text(
           'Sign in with facebook',
           textAlign: TextAlign.center,
-          style: textStyle.copyWith(
+          style: _textStyle.copyWith(
               color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
@@ -93,49 +93,6 @@ class _LoginPageState extends State<LoginPage> {
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _googleSignInButton() {
-    return OutlineButton(
-      splashColor: Colors.grey,
-      onPressed: () {
-        googleAuth.signInWithGoogle().whenComplete(
-              () => Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) {
-                    return Survey();
-                  },
-                ),
-              ),
-            );
-      },
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.0)),
-      highlightElevation: 0,
-      borderSide: BorderSide(color: Colors.grey),
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Image(
-              image: AssetImage('images/google_logo.png'),
-              height: 35.0,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: Text(
-                'Sign in with google',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.grey,
-                ),
-              ),
-            ),
-          ],
         ),
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:Halo_Halo/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 
 const questions = [
@@ -25,6 +26,8 @@ void initializeAnswer() {
 
 Options option1;
 
+bool _isValid = false;
+
 class Survey extends StatefulWidget {
   @override
   _SurveyState createState() => _SurveyState();
@@ -46,9 +49,6 @@ class _SurveyState extends State<Survey> {
           backgroundColor: Colors.cyan,
           centerTitle: true,
           elevation: 10.0,
-          actions: <Widget>[
-            IconButton(icon: Icon(Icons.account_circle), onPressed: () {}),
-          ],
           title: Text(
             'Survey',
             style: TextStyle(
@@ -134,7 +134,6 @@ class _SurveyState extends State<Survey> {
 
 void calculateResult(BuildContext context) {
   int _percentage = 0;
-  bool _isValid = false;
   for (final value in answer.values) {
     if (value == Options.None) {
       _isValid = false;
@@ -147,22 +146,30 @@ void calculateResult(BuildContext context) {
 
   _isValid
       ? showAlertDialog(context, 'Hasil Survey',
-          'Persentase terjangkit COVID-19: $_percentage%')
+          'Terima kasih sudah mengisi survey, untuk melihat hasilnya silahkan klik tombol dibawah,....', _percentage)
       : showAlertDialog(context, 'Perhatian!',
           'Silahkan isi semua survey terlebih dahulu!!!');
 }
 
-void showAlertDialog(BuildContext context, String title, String content) {
+void showAlertDialog(BuildContext context, String title, String content, [int persentage]) {
   showDialog(
     context: context,
+    barrierDismissible: !_isValid,
     builder: (_) => new AlertDialog(
       title: new Text(title),
       content: new Text(content),
       actions: <Widget>[
         FlatButton(
-          child: Text('Tutup!'),
+          child: _isValid ? Text('Lihat!') : Text('Tutup!'),
           onPressed: () {
-            Navigator.of(context).pop();
+            _isValid
+                ? Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProfilePage(persentage),
+                    ),
+                  )
+                : Navigator.pop(context);
           },
         ),
       ],

@@ -1,0 +1,116 @@
+import 'package:Halo_Halo/pages/pages.dart';
+import 'package:Halo_Halo/services/services.dart';
+import 'package:flutter/material.dart';
+
+class ProfilePage extends StatefulWidget {
+  int _score = 0;
+
+  ProfilePage(this._score);
+  
+  @override
+  _ProfilePageState createState() => _ProfilePageState(_score);
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  TextStyle _textStyle = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
+  FirebaseAuths _firebaseAuths = FirebaseAuths();
+  int _score = 0;
+  String _photoUrl = '';
+  String _username = '';
+
+  _ProfilePageState(this._score);
+
+  void getUserInfo() async {
+    _photoUrl = await _firebaseAuths
+        .getCurrentUser()
+        .then((value) => value.photoUrl.toString());
+    _username = await _firebaseAuths
+        .getCurrentUser()
+        .then((value) => value.displayName.toString());
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUserInfo();
+    print(_photoUrl);
+    print(_username);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final photoProfile = Padding(
+      padding: EdgeInsets.all(16.0),
+      child: CircleAvatar(
+        radius: 72.0,
+        backgroundColor: Colors.transparent,
+        backgroundImage: NetworkImage(_photoUrl),
+      ),
+    );
+
+    final userProfile = Padding(
+      padding: EdgeInsets.all(8.0),
+      child: Text(
+        _username,
+        style: TextStyle(fontSize: 28.0, color: Colors.white),
+      ),
+    );
+
+    final description = Padding(
+      padding: EdgeInsets.all(8.0),
+      child: Text(
+        'Persentasi anda untuk terjangkit COVID-19 adalah $_score, selalu jaga kesehatan dengan memakai masker, sering-sering mencuci tangan, gunakan hand sanitizer, dan jaga jarak minimal 1.5 meter,.....',
+        style: TextStyle(fontSize: 20.0, color: Colors.white),
+      ),
+    );
+
+    final signOut = Padding(
+      padding: EdgeInsets.all(8.0),
+      child: Material(
+        elevation: 5.0,
+        borderRadius: BorderRadius.circular(30.0),
+        color: Colors.white,
+        child: MaterialButton(
+          minWidth: MediaQuery.of(context).size.width,
+          padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+          onPressed: () {
+            _firebaseAuths.signOut().then(
+                  (value) => Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return LoginPage();
+                      },
+                    ),
+                  ),
+                );
+          },
+          child: Text(
+            'Sign out',
+            textAlign: TextAlign.center,
+            style: _textStyle.copyWith(
+                color: Colors.blue, fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+    );
+
+    return Scaffold(
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.all(28.0),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(colors: [Colors.blue, Colors.lightBlue]),
+        ),
+        child: Column(
+          children: <Widget>[
+            photoProfile,
+            userProfile,
+            description,
+            signOut,
+          ],
+        ),
+      ),
+    );
+  }
+}
