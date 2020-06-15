@@ -1,4 +1,6 @@
+import 'package:CoCheck/homeview.dart';
 import 'package:flutter/material.dart';
+import './varglob.dart' as globals;
 
 const questions = [
   'Apakah Anda memiliki riwayat demam selama 2 minggu terakhir?',
@@ -14,7 +16,7 @@ const questions = [
 ];
 
 enum Options { Iya, Tidak, None }
-
+bool _isValid = false;
 Map<String, Options> answer = {};
 
 void initializeAnswer() {
@@ -43,17 +45,49 @@ class _SurveyState extends State<Survey> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+              icon: Icon(Icons.navigate_before),
+              onPressed: () {
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => HomePage()));
+              }),
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.help),
+                onPressed: () {
+                  showDialog(
+    context: context,
+    barrierDismissible: true,
+    builder: (_) => new AlertDialog(
+      title: new Text("About Us"),
+      content: SizedBox(
+        height: 150.0,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    new Text("Aplikasi ini dibuat dengan tujuan memenuhi tugas UAS dari matakuliah Pemrograman Perangkat Bergerak.\n\nSekaligus memiliki tujuan agar masyarakat dapat mendeteksi infeksi virus Covid-19 secara dini.\n\nDeveloper Teams:\nDzakwan Diego\nTaufiq Dimas\ndkk.", textAlign: TextAlign.justify,),
+                    Text("\nUniversitas Diponegoro\n2020.", textAlign: TextAlign.center, textScaleFactor: 0.8,)
+                  ],
+                ),
+        ),
+      ),
+      actions: <Widget>[
+        FlatButton(
+          child: Text("Tutup"),
+          onPressed: () {
+                Navigator.of(context).pop();
+          },
+        ),
+      ],
+    ),
+  );
+                })
+          ],
           backgroundColor: Colors.cyan,
           centerTitle: true,
           elevation: 10.0,
           title: Text(
             'Survey',
-            style: TextStyle(
-              fontSize: 25.0,
-              fontWeight: FontWeight.bold,
-              fontStyle: FontStyle.normal,
-              color: Colors.white,
-            ),
           ),
         ),
         body: _myListView(context),
@@ -85,12 +119,6 @@ class _SurveyState extends State<Survey> {
               ListTile(
                 title: Text(
                   '${index + 1}. ${questions[index]}',
-                  style: TextStyle(
-                    fontSize: 15.0,
-                    fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.normal,
-                    color: Colors.grey[800],
-                  ),
                 ),
               ),
               ListTile(
@@ -130,8 +158,10 @@ class _SurveyState extends State<Survey> {
 }
 
 void calculateResult(BuildContext context) {
+  var _nama = globals.nama;
   int _percentage = 0;
-  bool _isValid = false;
+  String _content = '';
+
   for (final value in answer.values) {
     if (value == Options.None) {
       _isValid = false;
@@ -141,25 +171,34 @@ void calculateResult(BuildContext context) {
       _isValid = true;
     }
   }
-
+  if (_percentage >= 60) {
+    _content =
+        "Persentase anda terjangkit COVID-19: $_percentage%\nSilahkan kunjungi fasilitas kesehatan terdekat.";
+  } else {
+    _content =
+        "Persentase anda terjangkit COVID-19: $_percentage%\nTetap jaga kesehatan dan patuhi protokol kesehatan dari pemerintah.";
+  }
   _isValid
-      ? showAlertDialog(context, 'Hasil Survey',
-          'Persentase terjangkit COVID-19: $_percentage%')
-      : showAlertDialog(
-          context, 'Perhatian!', 'Silahkan isi semua survey terlebih dahulu!!!');
+      ? showAlertDialog(context, 'Halo $_nama!', _content)
+      : showAlertDialog(context, 'Perhatian!',
+          'Silahkan isi semua survey terlebih dahulu!!!');
 }
 
 void showAlertDialog(BuildContext context, String title, String content) {
   showDialog(
     context: context,
+    barrierDismissible: _isValid ? false : true,
     builder: (_) => new AlertDialog(
       title: new Text(title),
       content: new Text(content),
       actions: <Widget>[
         FlatButton(
-          child: Text('Tutup!'),
+          child: _isValid ? Text('Home') : Text("Tutup"),
           onPressed: () {
-            Navigator.of(context).pop();
+            _isValid
+                ? Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => HomePage()))
+                : Navigator.of(context).pop();
           },
         ),
       ],

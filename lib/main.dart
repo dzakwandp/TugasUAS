@@ -5,7 +5,8 @@ void main() {
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Splash Screen',
+      title: 'CoCheck',
+      theme: ThemeData( fontFamily: "Montserrat"),
       home: SplashScreenPage(),
     ),
   );

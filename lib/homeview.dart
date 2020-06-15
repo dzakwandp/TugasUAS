@@ -19,28 +19,32 @@ class MyCustomFormState extends State<MyCustomForm> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+          Image.asset(
+            'images/logo.png', //width: 200.0,
+            //height: 200.0,
+          ),
           Text(
             'Masukkan Nama Anda:\n',
             textDirection: TextDirection.ltr,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: Colors.grey[300],
+              color: Colors.white,
             ),
           ),
           Container(
             margin: EdgeInsets.only(right: 50, left: 50),
-            decoration: BoxDecoration(
-              color: Colors.grey[300],
-              borderRadius: new BorderRadius.circular(10),
-            ),
             child: TextFormField(
+              keyboardType: TextInputType.text,
               controller: _controller,
               decoration: InputDecoration(
                 contentPadding:
                     EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                 prefixIcon: Icon(Icons.account_circle),
-                border: InputBorder.none,
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                        color: Theme.of(context).primaryColor, width: 3)),
                 fillColor: Colors.white,
                 focusColor: Colors.white,
               ),
@@ -52,28 +56,44 @@ class MyCustomFormState extends State<MyCustomForm> {
               },
             ),
           ),
-          RaisedButton(
-            onPressed: () {
-              if (_formKey.currentState.validate()) {
-                globals.nama = _controller.text;
-                _nama = globals.nama;
-                Scaffold.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Selamat datang $_nama'),
-                  ),
-                );
-                var duration = const Duration(seconds: 2);
-                return Timer(
-                  duration,
-                  () {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => Survey()),
-                    );
-                  },
-                );
-              }
-            },
-            child: Text('Submit'),
+          SizedBox(
+            height: 10.0,
+          ),
+          Material(
+            elevation: 5.0,
+            borderRadius: BorderRadius.circular(10.0),
+            color: Colors.cyan,
+            child: MaterialButton(
+              //minWidth: MediaQuery.of(context).size.width,
+              padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+              onPressed: () {
+                if (_formKey.currentState.validate()) {
+                  globals.nama = _controller.text;
+                  _nama = globals.nama;
+                  Scaffold.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Selamat datang $_nama'),
+                    ),
+                  );
+                  var duration = const Duration(seconds: 2);
+                  return Timer(
+                    duration,
+                    () {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => Survey()),
+                      );
+                    },
+                  );
+                }
+              },
+              child: Text(
+                'Submit',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white),
+                // style: textStyle.copyWith(
+                //     color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+            ),
           ),
         ],
       ),

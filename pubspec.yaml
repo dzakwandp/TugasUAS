@@ -32,7 +32,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: "^0.7.3"
+  flutter_launcher_icons: "^0.7.5"
 
 flutter_icons:
   android: true
@@ -45,6 +45,10 @@ flutter_icons:
 
 # The following section is specific to Flutter.
 flutter:
+  fonts:
+  - family: Montserrat
+    fonts:
+    - asset: "font/Montserrat-Regular.ttf"
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -71,7 +75,6 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf
