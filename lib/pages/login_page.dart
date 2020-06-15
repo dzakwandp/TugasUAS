@@ -9,7 +9,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   TextStyle textStyle = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
-  Auth auth = Auth();
+  GoogleAuths googleAuth = GoogleAuths();
+  FacebookAuths facebookAuth = FacebookAuths();
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +22,8 @@ class _LoginPageState extends State<LoginPage> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
-          auth.googleSignIn().whenComplete(
-                () => Navigator.of(context).push(
+          googleAuth.signInWithGoogle().then(
+                (value) => Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (context) {
                       return Survey();
@@ -47,7 +48,17 @@ class _LoginPageState extends State<LoginPage> {
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {},
+        onPressed: () {
+          facebookAuth.signInWithFacebook().then(
+                (value) => Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return Survey();
+                    },
+                  ),
+                ),
+              );
+        },
         child: Text(
           'Sign in with facebook',
           textAlign: TextAlign.center,
@@ -91,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
     return OutlineButton(
       splashColor: Colors.grey,
       onPressed: () {
-        auth.googleSignIn().whenComplete(
+        googleAuth.signInWithGoogle().whenComplete(
               () => Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   builder: (context) {

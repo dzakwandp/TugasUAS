@@ -46,6 +46,9 @@ class _SurveyState extends State<Survey> {
           backgroundColor: Colors.cyan,
           centerTitle: true,
           elevation: 10.0,
+          actions: <Widget>[
+            IconButton(icon: Icon(Icons.account_circle), onPressed: () {}),
+          ],
           title: Text(
             'Survey',
             style: TextStyle(
@@ -145,8 +148,8 @@ void calculateResult(BuildContext context) {
   _isValid
       ? showAlertDialog(context, 'Hasil Survey',
           'Persentase terjangkit COVID-19: $_percentage%')
-      : showAlertDialog(
-          context, 'Perhatian!', 'Silahkan isi semua survey terlebih dahulu!!!');
+      : showAlertDialog(context, 'Perhatian!',
+          'Silahkan isi semua survey terlebih dahulu!!!');
 }
 
 void showAlertDialog(BuildContext context, String title, String content) {

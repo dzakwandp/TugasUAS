@@ -1,4 +1,3 @@
-import 'package:Halo_Halo/pages/homeview.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'pages.dart';
