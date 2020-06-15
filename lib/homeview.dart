@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'survey.dart';
 import 'package:flutter/material.dart';
-import 'varglob.dart' as globals;
 
+ String nama;
 class MyCustomForm extends StatefulWidget {
   @override
   MyCustomFormState createState() => MyCustomFormState();
@@ -11,7 +11,6 @@ class MyCustomForm extends StatefulWidget {
 class MyCustomFormState extends State<MyCustomForm> {
   final _formKey = GlobalKey<FormState>();
   final _controller = TextEditingController();
-  String _nama;
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -68,11 +67,10 @@ class MyCustomFormState extends State<MyCustomForm> {
               padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
               onPressed: () {
                 if (_formKey.currentState.validate()) {
-                  globals.nama = _controller.text;
-                  _nama = globals.nama;
+                  nama = _controller.text;
                   Scaffold.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Selamat datang $_nama'),
+                      content: Text('Selamat datang $nama'),
                     ),
                   );
                   var duration = const Duration(seconds: 2);
