@@ -1,24 +1,23 @@
-import 'package:Halo_Halo/pages/pages.dart';
 import 'package:Halo_Halo/services/services.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
-  int _score = 0;
+  int _persentage = 0;
 
-  ProfilePage(this._score);
+  ProfilePage(this._persentage);
 
   @override
-  _ProfilePageState createState() => _ProfilePageState(_score);
+  _ProfilePageState createState() => _ProfilePageState(_persentage);
 }
 
 class _ProfilePageState extends State<ProfilePage> {
   TextStyle _textStyle = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   FirebaseAuths _firebaseAuths = FirebaseAuths();
-  int _score = 0;
+  int _persentage = 0;
   String _photoUrl = '';
   String _username = '';
 
-  _ProfilePageState(this._score);
+  _ProfilePageState(this._persentage);
 
   void getUserInfo() async {
     _firebaseAuths.getCurrentUser().then(
@@ -35,7 +34,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getUserInfo();
   }
@@ -63,7 +61,7 @@ class _ProfilePageState extends State<ProfilePage> {
     final description = Padding(
       padding: EdgeInsets.all(8.0),
       child: Text(
-        'Persentase anda untuk terjangkit COVID-19 adalah $_score%, selalu jaga kesehatan dengan memakai masker, sering-sering mencuci tangan, gunakan hand sanitizer, dan jaga jarak minimal 1.5 meter, terimakasih semoga sehat selalu,.....',
+        'Persentase anda untuk terjangkit COVID-19 adalah $_persentage%, selalu jaga kesehatan dengan memakai masker, sering-sering mencuci tangan, gunakan hand sanitizer, dan jaga jarak minimal 1.5 meter, terimakasih semoga sehat selalu,.....',
         textDirection: TextDirection.ltr,
         style: TextStyle(fontSize: 20.0, color: Colors.white),
       ),
@@ -80,13 +78,7 @@ class _ProfilePageState extends State<ProfilePage> {
           padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           onPressed: () {
             _firebaseAuths.signOut().then(
-                  (value) => Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return LoginPage();
-                      },
-                    ),
-                  ),
+                  (value) => Navigator.pushNamed(context, '/loginPage'),
                 );
           },
           child: Text(
@@ -100,22 +92,25 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
 
-    return Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.all(28.0),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [Colors.blue, Colors.lightBlue]),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            photoProfile,
-            userProfile,
-            description,
-            signOut,
-          ],
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        body: Container(
+          width: MediaQuery.of(context).size.width,
+          padding: EdgeInsets.all(28.0),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(colors: [Colors.blue, Colors.lightBlue]),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              photoProfile,
+              userProfile,
+              description,
+              signOut,
+            ],
+          ),
         ),
       ),
     );

@@ -1,4 +1,3 @@
-import 'package:Halo_Halo/pages/survey.dart';
 import 'package:flutter/material.dart';
 import 'package:Halo_Halo/services/services.dart';
 
@@ -23,13 +22,7 @@ class _LoginPageState extends State<LoginPage> {
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
           _googleAuth.signInWithGoogle().then(
-                (value) => Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return Survey();
-                    },
-                  ),
-                ),
+                (value) => Navigator.pushNamed(context, '/surveyPage'),
               );
         },
         child: Text(
@@ -50,15 +43,9 @@ class _LoginPageState extends State<LoginPage> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
-          _facebookAuth.signInWithFacebook().then(
-                (value) => Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return Survey();
-                    },
-                  ),
-                ),
-              );
+          _facebookAuth
+              .signInWithFacebook()
+              .then((value) => Navigator.pushNamed(context, '/surveyPage'));
         },
         child: Text(
           'Sign in with facebook',
@@ -70,29 +57,32 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
 
-    return Scaffold(
-      body: Center(
-        child: Container(
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(36.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  height: 155.0,
-                  child: Image.asset(
-                    'images/splash.png',
-                    fit: BoxFit.contain,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        body: Center(
+          child: Container(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(36.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    height: 155.0,
+                    child: Image.asset(
+                      'images/splash.png',
+                      fit: BoxFit.contain,
+                    ),
                   ),
-                ),
-                SizedBox(height: 45.0),
-                signInWithGoogle,
-                SizedBox(height: 15.0),
-                signInWithFacebook,
-                SizedBox(height: 15.0),
-              ],
+                  SizedBox(height: 45.0),
+                  signInWithGoogle,
+                  SizedBox(height: 15.0),
+                  signInWithFacebook,
+                  SizedBox(height: 15.0),
+                ],
+              ),
             ),
           ),
         ),

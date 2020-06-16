@@ -42,39 +42,42 @@ class _SurveyState extends State<Survey> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.cyan,
-          centerTitle: true,
-          elevation: 10.0,
-          title: Text(
-            'Survey',
-            textDirection: TextDirection.ltr,
-            style: TextStyle(
-              fontSize: 25.0,
-              fontWeight: FontWeight.bold,
-              fontStyle: FontStyle.normal,
-              color: Colors.white,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.cyan,
+            centerTitle: true,
+            elevation: 10.0,
+            title: Text(
+              'Survey',
+              textDirection: TextDirection.ltr,
+              style: TextStyle(
+                fontSize: 25.0,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.normal,
+                color: Colors.white,
+              ),
             ),
           ),
-        ),
-        body: _myListView(context),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            setState(() {
-              calculateResult(context);
-            });
-          },
-          label: Text(
-            'Submit',
-            textDirection: TextDirection.ltr,
+          body: _myListView(context),
+          floatingActionButton: FloatingActionButton.extended(
+            onPressed: () {
+              setState(() {
+                calculateResult(context);
+              });
+            },
+            label: Text(
+              'Submit',
+              textDirection: TextDirection.ltr,
+            ),
+            icon: Icon(Icons.thumb_up),
+            backgroundColor: Colors.cyan,
+            elevation: 5.0,
+            tooltip: 'Submit untuk melihat hasilnya',
           ),
-          icon: Icon(Icons.thumb_up),
-          backgroundColor: Colors.cyan,
-          elevation: 5.0,
-          tooltip: 'Submit untuk melihat hasilnya',
         ),
       ),
     );
@@ -93,7 +96,7 @@ class _SurveyState extends State<Survey> {
                 title: Text(
                   '${index + 1}. ${questions[index]}',
                   style: TextStyle(
-                    fontSize: 15.0,
+                    fontSize: 17.0,
                     fontWeight: FontWeight.bold,
                     fontStyle: FontStyle.normal,
                     color: Colors.grey[800],
@@ -169,12 +172,12 @@ void showAlertDialog(BuildContext context, String title, String content,
   showDialog(
     context: context,
     barrierDismissible: !_isValid,
-    builder: (_) => new AlertDialog(
-      title: new Text(
+    builder: (_) => AlertDialog(
+      title: Text(
         title,
         textDirection: TextDirection.ltr,
       ),
-      content: new Text(
+      content: Text(
         content,
         textDirection: TextDirection.ltr,
       ),
@@ -191,12 +194,13 @@ void showAlertDialog(BuildContext context, String title, String content,
                 ),
           onPressed: () {
             _isValid
-                ? Navigator.of(context).pushReplacement(
+                ? Navigator.pushReplacement(
+                    context,
                     MaterialPageRoute(
                       builder: (context) => ProfilePage(persentage),
                     ),
                   )
-                : Navigator.of(context).pop();
+                : Navigator.pop(context);
           },
         ),
       ],
