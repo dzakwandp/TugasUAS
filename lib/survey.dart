@@ -18,6 +18,7 @@ const questions = [
 enum Options { Iya, Tidak, None }
 bool _isValid = false;
 int percentage = 0;
+String content = '';
 Map<String, Options> answer = {};
 
 void initializeAnswer() {
@@ -52,45 +53,6 @@ class _SurveyState extends State<Survey> {
                 Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (context) => HomePage()));
               }),
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.help),
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    barrierDismissible: true,
-                    builder: (_) => new AlertDialog(
-                      title: new Text("About Us"),
-                      content: SizedBox(
-                        height: 150.0,
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: <Widget>[
-                              new Text(
-                                "Aplikasi ini dibuat dengan tujuan memenuhi tugas UAS dari matakuliah Pemrograman Perangkat Bergerak.\n\nSekaligus memiliki tujuan agar masyarakat dapat mendeteksi infeksi virus Covid-19 secara dini.\n\nDeveloper Teams:\nDzakwan Diego\nTaufiq Dimas\ndkk.",
-                                textAlign: TextAlign.justify,
-                              ),
-                              Text(
-                                "\nUniversitas Diponegoro\n2020.",
-                                textAlign: TextAlign.center,
-                                textScaleFactor: 0.8,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      actions: <Widget>[
-                        FlatButton(
-                          child: Text("Tutup"),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                })
-          ],
           backgroundColor: Colors.cyan,
           centerTitle: true,
           elevation: 10.0,
@@ -166,7 +128,6 @@ class _SurveyState extends State<Survey> {
 }
 
 void calculateResult(BuildContext context) {
-  String _content = '';
 
   for (final value in answer.values) {
     if (value == Options.None) {
@@ -176,6 +137,13 @@ void calculateResult(BuildContext context) {
       percentage += 10;
       _isValid = true;
     }
+      if (hasil >= 60) {
+    content =
+       ("SANGAT TINGGI\nSilahkan kunjungi fasilitas kesehatan terdekat.");
+  } else {
+    content =
+        ("RENDAH \nTetap jaga kesehatan dan patuhi protokol kesehatan dari pemerintah.");
+  }
   }
   _isValid
       ? Navigator.of(context)
