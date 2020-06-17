@@ -1,5 +1,6 @@
 import 'package:CoCheck/homeview.dart';
-import 'result.dart';
+import 'resultpos.dart';
+import 'resultmin.dart';
 import 'package:flutter/material.dart';
 
 const questions = [
@@ -128,7 +129,6 @@ class _SurveyState extends State<Survey> {
 }
 
 void calculateResult(BuildContext context) {
-
   for (final value in answer.values) {
     if (value == Options.None) {
       _isValid = false;
@@ -136,18 +136,14 @@ void calculateResult(BuildContext context) {
     } else if (value == Options.Iya) {
       percentage += 10;
       _isValid = true;
+    } else if (value == Options.Tidak){
+      percentage += 0;
+      _isValid=true;
     }
-      if (hasil >= 60) {
-    content =
-       ("SANGAT TINGGI\nSilahkan kunjungi fasilitas kesehatan terdekat.");
-  } else {
-    content =
-        ("RENDAH \nTetap jaga kesehatan dan patuhi protokol kesehatan dari pemerintah.");
   }
-  }
+    
   _isValid
-      ? Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) => Result()))
+      ? calculateHasil(context)
       : showAlertDialog(context, 'Perhatian!',
           'Silahkan isi semua survey terlebih dahulu!!!');
 }
@@ -155,6 +151,15 @@ void calculateResult(BuildContext context) {
 // void nextPage(){
 //   Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
 // }
+void calculateHasil(BuildContext context) {
+  if (percentage >= 60) {
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (context) => ResultPos()));
+  } else {
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (context) => ResultMin()));
+  }
+}
 
 void showAlertDialog(BuildContext context, String title, String content) {
   showDialog(

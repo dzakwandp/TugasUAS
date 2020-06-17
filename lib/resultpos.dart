@@ -1,31 +1,30 @@
 import 'package:flutter/material.dart';
-import 'survey.dart' as survey;
 import 'homeview.dart';
 import 'homeview.dart' as home;
 
-int hasil = survey.percentage;
-String content = survey.content;
+
 String nama = home.nama;
 
-class Result extends StatefulWidget {
+class ResultPos extends StatefulWidget {
   @override
-  _ResultState createState() => _ResultState();
+  _ResultPosState createState() => _ResultPosState();
 }
 
-class _ResultState extends State<Result> {
+class _ResultPosState extends State<ResultPos> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
           appBar: AppBar(
-            title: Text("Result"),
+            title: Text("Result", style: TextStyle(color: Colors.cyan),),
             centerTitle: true,
             elevation: 0,
-            backgroundColor: Colors.cyan,
+            backgroundColor: Colors.white,
             actions: <Widget>[
               IconButton(
                   icon: Icon(Icons.help),
+                  color: Colors.cyan,
                   onPressed: () {
                     showDialog(
                       context: context,
@@ -63,30 +62,30 @@ class _ResultState extends State<Result> {
                   })
             ],
           ),
-          backgroundColor: Colors.cyan,
+          backgroundColor: Colors.white,
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.fromLTRB(0, 0, 160, 0),
+                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   child: Text("Hallo $nama!!",
                       style: TextStyle(
                         fontSize: 48,
                         fontFamily: "Montserrat",
-                        color: Colors.white,
+                        color: Colors.cyan,
                       ))),
-              Image.asset('images/min.gif', width: 200, height: 200),
+              Image.asset('images/max.gif', width: 200, height: 200),
               Container(
                   margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   child: Text(
-                    "Potensi anda terjangkit COVID-19: $content",
+                    "Potensi anda terjangkit COVID-19: TINGGI\nSilahkan kunjungi fasilitas pelayanan kesehatan terdekat untuk melakukan pengecekan kesehatan Anda.",
                     style: TextStyle(
-                        fontFamily: 'Montserrat', color: Colors.white),
+                        fontFamily: 'Montserrat', color: Colors.cyan),
                   )),
               Material(
                   elevation: 5.0,
                   borderRadius: BorderRadius.circular(10.0),
-                  color: Colors.white,
+                  color: Colors.cyan,
                   child: MaterialButton(
                     padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                     onPressed: () {
@@ -95,7 +94,7 @@ class _ResultState extends State<Result> {
                     },
                     child: Text("Home",
                         style: TextStyle(
-                          color: Colors.cyan,
+                          color: Colors.white,
                         )),
                   ))
             ],
